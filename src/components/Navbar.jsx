@@ -12,6 +12,7 @@ import { logout } from "../slices/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { useLogoutMutation } from "../slices/auth/usersApiSlice";
+import { IoMdLogOut } from "react-icons/io";
 import { IoIosHelp, IoMdAlbums, IoMdHelp, IoMdSettings } from "react-icons/io";
 import mimlogo from "../assets/graymimlogo.png";
 import { Outlet } from "react-router-dom";
@@ -133,7 +134,7 @@ const Navbar = () => {
 
          {userInfo ? null:          
           <div className="absolute top-5 left-56">
-           <Link to="/register">Sign Up</Link>
+           <Link to="/register"> Sign Up</Link>
          </div>
          }
          <div className="absolute top-5 left-72">
@@ -141,13 +142,14 @@ const Navbar = () => {
          </div>
 
         {showProfile ? 
-          <div className=" absolute top-5 right-11 " onClick={handleShowProfile}>
+          <div className=" absolute top-5 right-7 " onClick={handleShowProfile}>
             <FaUser className=" h-6 w-6 md:h-7 md:w-11 "/>
           </div> 
           : 
           <div className=" py-5 ">
         {userInfo ?  <div className="">
-          <FaUser className=" absolute top-5 right-11  w-6 h-6 md:h-7 md:w-11 " onClick={handleShowProfile}/>
+          <FaUser className=" absolute top-5 right-11  w-6 h-6 md:h-7 md:w-11 "
+           onClick={handleShowProfile}/>
           
          <div  
            className=" absolute top-16 right-2 cursor-pointer bg-slate-100"
@@ -177,7 +179,7 @@ const Navbar = () => {
 
             <div onClick={handleLogout}>
               <button className="mx-3 shadow rounded w-24 h-7 p-1 bg-red-300"><Link to="/logout" className="text-large text-center">
-                Logout
+                <IoMdLogOut className=" w-5 h-5"/> Logout
               </Link></button>
             </div>
           </div> 

@@ -84,26 +84,26 @@ function App() {
           <Route path="/location" element={<Location/>}/>
           <Route path="/auth/error" element={<ErrorMiddleware/>}/>
           <Route path="/register" element={<Register />} />
+          <Route path="video/stream" element={<VideoStream/>}/> 
+          <Route path="/video/category" element={<Category/>}/> 
+          <Route path="/post/video" element={<LyricsVideo/>}/>
+          <Route path="/post/category" element={<Category/>}/>           
+          <Route path="/post/lyric/list" element={<Lyric/>}/>
+          <Route path="/post/lyric" element={<Lyricx/>}/>
+          <Route path="/post/lyric/category" element={<LyricCategory/>}/>
+          <Route path="/post/lyric/read" element={<LyricRead/>}/>
+          <Route path="/post/category" element={<Category/>}/>
+          <Route path="/language" element={<Language/>}/>
+          <Route path="/profile" element={<Profile/>}/>
           {/** RequireAuth routes */}
           <Route element={<RequireAuth/>}>
             <Route path="/chat" element={<Chat />} />
-            <Route path="/language" element={<Language/>}/>
             <Route path="infochat" element={<InfoChat/>}/>
             <Route path="/room" element={<Room />} />  
             <Route path="/message" element={<Message/>}/>
-           {userInfo ? <Route path="/profile" element={<Profile/>}/>  : <Route path="/" element={<Home/>}/>}  
             <Route path="/test" element={<Test/>}/>
             <Route path="/infochat" element={<InfoChat/>}/>  
             {/** videos, lyric, chats */}
-            <Route path="video/stream" element={<VideoStream/>}/> 
-            <Route path="/video/category" element={<Category/>}/> 
-            <Route path="/post/video" element={<LyricsVideo/>}/>
-            <Route path="/post/category" element={<Category/>}/>           
-            <Route path="/post/lyric/list" element={<Lyric/>}/>
-            <Route path="/post/lyric" element={<Lyricx/>}/>
-            <Route path="/post/lyric/category" element={<LyricCategory/>}/>
-            <Route path="/post/lyric/read" element={<LyricRead/>}/>
-            <Route path="/post/category" element={<Category/>}/>
           </Route>
         </Route>
 
