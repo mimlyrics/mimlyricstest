@@ -5,7 +5,7 @@ import {BsEmojiSmileFill} from "react-icons/bs";
 import { FaCamera } from "react-icons/fa6";
 import axios from "axios";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 const Input = ({handleEmojiClick, message, files, setFiles, setMessage, sendMessage, phone, room}) => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [errMsg, setErrMsg] = useState("");

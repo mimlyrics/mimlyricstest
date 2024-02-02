@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 //import "./css/video.css";
 import { FaUpload } from "react-icons/fa6";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import {countries} from "country-data-list";
 import queryString from "query-string";
 
@@ -111,7 +111,7 @@ const EditorEditLyric = () => {
   }
 
   return (
-    <section className=" md:mt-16  visible w-[93vw] md:w-[55vw] bg-zinc-100 md:bg-zinc-200 md:absolute md:top-0 md:left-40 lg:left-60 xl:left-64 my-2 mx-2 px-1">
+    <section className=" relative -z-50 md:mt-16  visible w-[93vw] md:w-[55vw] bg-zinc-100 md:bg-zinc-200 md:absolute md:top-0 md:left-40 lg:left-60 xl:left-64 my-2 mx-2 px-1">
       <div className="mb-8 mt-1 bg-red-200">
         <h1 className="text-2xl text-center bg-gradient-to-l from-blue-100 to-purple-100">Edit Lyric</h1>
       </div>

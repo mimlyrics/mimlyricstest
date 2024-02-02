@@ -2,7 +2,7 @@ import {useState, useEffect, useRef} from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import ScrollToBottom from "react-scroll-to-bottom";
 import TimeAgo from "timeago-react";
 import Message from "./Message";
@@ -15,7 +15,7 @@ const RecentMessages = ({files, conversationId, room, image, userId, message,  m
   const [timeAgo, setTimeAgo] = useState("");
   const [go, setGo] = useState(false);
   const [mediaArray, setMediaArray] = useState([]);
-  
+ 
 
   useEffect(() => {
     const getMessages = async () => {

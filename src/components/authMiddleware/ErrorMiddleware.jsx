@@ -1,5 +1,4 @@
 
-
 const ErrorMiddleware = ({errMsg}) => {
   return (
     <section className="">

@@ -1,7 +1,8 @@
 import {useState, useEffect} from "react";
 import { Link } from 'react-router-dom';
-import mimletraslogo from "../assets/mimlyricspng/mimchart1.png";
-import mimletraslogo1 from "../assets/mimlyricspng/mimletras.png";
+import MimletrasLogo from "../assets/mimlyricspng/mimletras.png";
+import MimHome5 from "../assets/mimlyricspng/MIMfrancais.png"
+import MimHome from "../assets/mimlyricspng/MimHome2.png";
 import WebFont from "webfontloader"
 import "./css/index.css";
 import { FaExclamation, FaFacebook, FaSnapchat, FaWhatsapp } from "react-icons/fa6";
@@ -10,6 +11,8 @@ import { FaTiktok } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa6";
 import { FaGithub } from "react-icons/fa6";
 import { FaTwitter } from "react-icons/fa6";
+import MimChart from "../assets/mimlyricspng/MIMchart.png"
+import { useMimlyrics } from "./context/AppProvider";
 const Home = () => {
 
 useEffect(() => {
@@ -20,26 +23,46 @@ useEffect(() => {
    });
   }, []);
 
+  const {isActiveModalNavbar, setIsActiveModalNavbar} = useMimlyrics();
+ 
   return ( 
-    <section className={` font-medium space-x-1 bg-gradient-to-r from-slate-100 to-violet-200 mx-1 mt-1 lg:mx-3 md:ml-48 lg:ml-64 `}>
-      <div className={` bg-[url("../assets/mimlyricspng/mimletras.png")]`}>
+    <section className={ isActiveModalNavbar ? " relative opacity-60 -z-50 " :  "  -z-50 font-medium space-x-1 mx-1 mt-1 lg:mx-3 md:ml-48 lg:ml-64" }>
+      <div className={``}>
         {/*<img className=' invisible md:visible ' src={mimletraslogo} alt="mimletra"/>
   <img className='absolute top-0 h-full w-full opacity-25 md:hidden' src={mimletraslogo1} alt="mimletras"/>*/}
       </div>
-      <div className=' pl-2 pr-20 md:pr-28 py-2'>
-        <p className="text-gray-900 ">
-          Welcome to mimlyrics ! a web app where you can watch and get lyrics video in four languages (english, french, spanish, german)
-           for entertainment or post .
-        </p>
+      <div className=' mt-2 md:mt-0 pl-2 '>
+        <div className=" absolute -z-50 w-1 invisible md:visible md:w-[80vw] md:h-[10vh] ">
+          <img className=" ml-80 opacity-60 " src={MimHome5} alt="X" />
+        </div>
+        <div className=" w-12 visible md:hidden">
+          <img className=" absolute w-11 top-4 left-32 z-50 opacity-100 " src={MimHome5} alt="X" />
+        </div>
+        {/*<div className="absolute top-20 flex justify-center  ">
+          <div className=" font-loader text-gray-700 font-bold text-xl space-x-4  ">
+            <p>Subdivided into </p> <br/>
+            <p>Mimlyrics, Mim Letras</p> <br/>
+            <p>Mimlyrics francais, mimlyrics Deutsch</p>
+      </div>
+      </div>*/}
       </div>
 
-      <p className=" pl-2 pr-20 md:pr-28 font-loader py-2">
-        This web app is subdivided into categories (mimlyrics francais, mimlyrics, mimletras, mimlyrics Deutsch) etc to allow 
-        User find content that suit them the most .
-      </p>
-  
-      <div className="flex flex-col md:text-lg py-2 ">
-        <div className="flex flex-col mx-2 mb-3">
+      <div className=' mt-2 md:mt-2 pl-2 pr-14 md:pr-20 py-1'>
+        <div className=" ">
+          <p className="text-gray-900 ">
+            Welcome to mimlyrics ! a web app where you can watch and get lyrics video in four languages (english, french, spanish, german)
+            for entertainment or post .
+          </p>
+
+        <p className=" pt-2 ">
+          This web app is subdivided into categories (mimlyrics francais, mimlyrics, mimletras, mimlyrics Deutsch) etc to allow 
+          User find content that suit them the most .
+        </p>
+      </div>
+      </div>
+ 
+      <div className=" w-[40%] flex flex-col md:text-lg md:py-1 ">
+        <div className="flex flex-col mx-2 mb-1">
           <p className=''> _______</p>
           <Link to="/video/category" className="">
             Get videos to post
@@ -54,8 +77,8 @@ useEffect(() => {
           <Link to="/post/editor/dashboard">Editor Dashboard</Link>
         </div>
 
-        <div className=" bg-gradient-to-l from-violet-200 to-violet-50 md:flex md:space-x-28">
-          <div className="flex flex-col mb-3 py-2">
+        <div className=" md:flex md:space-x-28">
+          <div className="flex flex-col mb-3 py-1">
             <p>About Us</p>
             <Link to="/location" className="ml-3">
               Location
@@ -64,7 +87,7 @@ useEffect(() => {
               Why ?
             </Link>
 
-            <div className=" my-5 ">
+            <div className=" my-2 ">
               <Link to="/">Contact</Link>
               <div className="flex">
                 <FaWhatsapp className=" w-5 h-5 md:w-7 md:h-7 "/>+237 6245401

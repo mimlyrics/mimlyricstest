@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import queryString from "query-string";
 import TimeAgo from "timeago-react";
 

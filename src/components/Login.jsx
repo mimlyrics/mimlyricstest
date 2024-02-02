@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+//const BASE_URL = "http://localhost:5000/api/v1";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import FacebookLogo from "../assets/facebook.png";
 import GoogleLogo from "../assets/google.png";
 import GithubLogo from "../assets/github.png";
@@ -9,17 +10,18 @@ import {useDispatch, useSelector} from "react-redux";
 import { useLoginMutation } from "../slices/auth/usersApiSlice";
 import { setCredentials } from "../slices/auth/authSlice";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa6";
-
+import { useMimlyrics } from "./context/AppProvider";
 const Login = () => {
   const [email , setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [errMessage, setErrMessage] = useState("");
   const [success, setSucess] = useState(false);
   const [hi, setHi] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const {isActiveModalNavbar, setIsActiveModalNavbar} = useMimlyrics();
+  //console.log("ISL: ", isActiveModalNavbar);
   const [login, {isLoading} ] = useLoginMutation();
   const {token} = useSelector((state) => state.auth);
   //console.log("tokenxx: ", token);
@@ -58,23 +60,22 @@ const Login = () => {
   }
 
   const Google = () => {
-    window.open("http://localhost:5000/auth/google", "_self");
+    window.open(`${BASE_URL}/auth/google`, "_self");
   }
 
   return (
-    <section className="bg-indigo-100 h-screen">
+    <section className={ isActiveModalNavbar ? " relative -z-50 " : " relative my-1 h-screen"}>
       <form
-        className=" h-5/6 md:w-6/12 md:ml-64 bg-white border ml-3 shadow-xl shadow-indigo-300 rounded flex-col "
-        action="./register"
+        className=" py-6 md:w-6/12 md:ml-64 bg-white mx-3 shadow-2xl shadow-indigo-300 rounded flex-col "
         onSubmit={handleSubmit}
       >
-        <h2 className="text-center mt-5 mb-5 italic text-2xl">
+        <h2 className="text-center italic text-2xl">
           Choose a Login Method
         </h2>     
       {errMessage ? <h1 className="font-medium text-center my-3 text-xl text-red-400 md:text-lg ">{errMessage}</h1> : null}
       {success ? <h1 className="font-medium text-center my-3 text-xl text-blue-800 md:text-lg ">{success}</h1> : null}
       {hi ? null : null}
-        <p className="mb-5 mt-3 text-center">
+        <p className="mb-3 mt-2 text-center">
           Don't have an account ?{" "}
           <Link to="/register" className="bg-purple-200 rounded">
             Sign Up
@@ -82,10 +83,10 @@ const Login = () => {
         </p>
 
         
-        <div onClick={Google} >
-          <div className=" mb-2 relative p-5 bg-slate-50 hover:bg-slate-200 cursor-pointer" onClick={Google}>
+        <div onClick={Google} className=" " >
+          <div className="  mb-2 relative p-5  hover:bg-slate-200 cursor-pointer" onClick={Google}>
             <img
-              className="absolute top-0 left-14  h-8 "
+              className="opacity-80 absolute top-0 left-14  h-8 "
               src={GoogleLogo}
               alt="google"
             />
@@ -94,20 +95,20 @@ const Login = () => {
             </span>
           </div>
 
-        <div className="mb-2 relative p-5 bg-slate-50 hover:bg-slate-200 cursor-pointer">
+        <div className="mb-2 relative p-5  hover:bg-slate-200 cursor-pointer">
           <img
-            className="absolute top-0 left-14  h-9 "
+            className=" opacity-80 absolute top-0 left-14  h-9 "
             src={FacebookLogo}
             alt="facebook"
           />
-          <span className="absolute top-2 left-24">
+          <span className=" absolute top-2 left-24">
             <Link to="/auth/facebook">Continue with Facebook</Link>
           </span>
         </div>
 
-        <div className=" cursor-pointer mb-7 relative p-5 bg-slate-50 hover:bg-slate-200">
+        <div className=" cursor-pointer mb-7 relative p-5 hover:bg-slate-200">
           <img
-            className="absolute top-0 left-14  h-8"
+            className=" opacity-80 absolute top-0 left-14  h-8"
             src={GithubLogo}
             alt="github"
           />
@@ -118,9 +119,9 @@ const Login = () => {
       </div>
 
       <div className=" mb-9 relative ">
-        <p className="absolute top-0 left-4  h-1 w-48  bg-slate-500  "></p>
-        <h1 className="absolute left-52 -top-5 text-4xl  shadow rounded text-indigo-600  ">OR</h1>
-        <p className="absolute top-0 right-5  h-1 w-48  bg-slate-500 md:right-48 lg:right-52 "></p>
+        <p className=" absolute top-0 left-[1%] w-[40%] md:w-[42%] h-1 bg-slate-500  "></p>
+        <h1 className=" absolute left-[45%] -top-5 text-4xl rounded text-gray-600  ">OR</h1>
+        <p className=" absolute top-0 right-[1%] h-1 w-[40%] md:w-[42%] md:right-[2%] bg-slate-500  "></p>
       </div>
 
       <div className="form-group p-2">
@@ -130,7 +131,7 @@ const Login = () => {
           autoComplete="off"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="border rounded w-full h-8 text-blue-600"
+          className=" p-2 border rounded w-full text-blue-600"
         />
       </div>
 
@@ -144,13 +145,13 @@ const Login = () => {
                 autoComplete="off"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border rounded w-full h-8 text-blue-600"
+                className=" p-2 border rounded w-full text-blue-600"
                 placeholder="Password"
               />
 
-              <div className="absolute top-2 ml-80 md:ml-96 ">
+              <div className="absolute top-2 ml-[93%] md:ml-[93%] ">
                 <button type="button" onClick={handleShowPassword}>
-                  <FaRegEye />
+                  <FaRegEye className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
               </div>
             </div>
@@ -164,11 +165,11 @@ const Login = () => {
                 autoComplete="off"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="border rounded w-full h-8 text-blue-600"
+                className=" p-2 border rounded w-full text-blue-600"
               />
-              <div className="absolute top-2 ml-80 md:ml-96">
+              <div className="absolute top-2 ml-[93%] md:ml-[93%]">
                 <button type="button" onClick={handleShowPassword}>
-                  <FaRegEyeSlash />
+                  <FaRegEyeSlash className=" w-5 h-5 md:w-6 md:h-6 " />
                 </button>
               </div>
             </div>

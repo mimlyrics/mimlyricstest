@@ -3,19 +3,20 @@ import {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import EditorPost from "./EditorPost";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import axios from "axios";
 const Post = () => {
+  
   const [rooms, setRooms] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   useEffect(() => {
     const getRooms = axios.get(`${BASE_URL}/room`).then(res=> {
       setRooms(res.data.rooms);
     }).catch(err=> setErrMsg(err?.data?.message));
-    
   }, [])
+
   return (
-    <>
+    <div>
     <section className="cursor-pointer md:visible mx-1">
         <div className=" md:hidden mx-3 text-lg bg-indigo-100 text-blue-900 flex justify-around my-2">
           <Link to="/post/lyric">Post lyrics</Link>
@@ -36,7 +37,7 @@ const Post = () => {
         })}  
         <Outlet/>      
     </section>
-    </>
+    </div>
   )
 }
 

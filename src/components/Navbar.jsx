@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {FaLanguage, FaList} from "react-icons/fa6";
 import { FaAlignJustify } from "react-icons/fa6";
 import {FaX} from "react-icons/fa6"
@@ -10,15 +10,19 @@ import { FaVideo } from "react-icons/fa6";
 import { FaExclamation } from "react-icons/fa6";
 import { logout } from "../slices/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useLogoutMutation } from "../slices/auth/usersApiSlice";
-import { IoMdLogOut } from "react-icons/io";
-import { IoIosHelp, IoMdAlbums, IoMdHelp, IoMdSettings } from "react-icons/io";
+import { IoMdLogOut, } from "react-icons/io";
+import { FaRegistered } from "react-icons/fa6";
+import { IoIosHelp, IoMdAlbums, IoMdHelp, IoMdLogIn, IoMdSave, IoMdSettings } from "react-icons/io";
 import mimlogo from "../assets/graymimlogo.png";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
+import AppProvider from "./context/AppProvider";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
+import { useMimlyrics } from "./context/AppProvider";
+
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   const [showProfile, setShowProfile] = useState(true);
@@ -27,9 +31,15 @@ const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();  
   const {userInfo} = useSelector(state => state.auth);
-  
+  const [isRun, setIsRun] = useState(false);  
   const [logOutApiCall, {isLoading}] = useLogoutMutation();
+  const [errMsg, setErrMsg] = useState("");
+  const location = useLocation();
+  const {pathname} = location;
+  console.log(location);
+  const {isActiveModalNavbar, setIsActiveModalNavbar} = useMimlyrics();
 
+  //console.log("IS: ", isActiveModalNavbar);
   useEffect(() => {
     async function getImage() {
       if(userInfo) {
@@ -41,7 +51,7 @@ const Navbar = () => {
       }
     }
     getImage();
-  }, [image, file]) 
+  }, [image, file, isRun]) 
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -52,6 +62,7 @@ const Navbar = () => {
     }catch(err) {
       //console.log("huumm");
       console.log(err?.data?.message);
+      setErrMsg(err?.data?.message);
     }
   }
 
@@ -64,6 +75,7 @@ const Navbar = () => {
       formData.append("userId", userId);
       const postPic = await axios.put(`${BASE_URL}/upload/avatar/${userId}`, formData, {headers: {withCredentials: true, "Content-Type": "multipart/form-data"}});
       setImage(postPic.data.user.profilePhoto);
+      setIsRun(true);
       console.log(postPic);
     }catch(err) {
       console.log(err);
@@ -74,74 +86,102 @@ const Navbar = () => {
     setShowProfile(!showProfile);
   }
 
+  const handleModalNavbar = async () => {
+    setShowModal(!showModal); 
+    setIsActiveModalNavbar(!showModal);       
+    
+  }
+
    return (    
-      <>
-       <nav className="bg-zinc-300 h-16 relative md:flex-row md:justify-between">
-         <div className="navbar-logo">
-           <img src="" alt="" />
-         </div>
+      <div className=" z-50  ">
+       <nav className=" md:py-1 z-50 shadow shadow-blue-500 border bg-blue-200 h-16 relative md:flex-row md:justify-between">
+
          {showModal ? (
            <div className=" absolute top-5 left-2 md:invisible">
-             <button className="" onClick={() => setShowModal(false)}>
+             <button className="" onClick={() => handleModalNavbar()}>
                <FaX />
              </button>
            </div>
          ) : (
            <div className="absolute top-5 left-2 md:invisible">
-             <button className="" onClick={() => setShowModal(true)}>
+             <button className="" onClick={() => handleModalNavbar()}>
                <FaAlignJustify />
              </button>
            </div>
          )}
             
          <div className=" invisible md:visible">
-           <ul className=" mx-1 mt-1 px-3 absolute top-16 w-44 md:w-[19%] lg:w-[19%] flex-col lg:text-lg bg-zinc-100 shadow-lg shadow-zinc-500">              
+           <ul className=" mx-1 mt-1 px-3 absolute top-16 w-44 md:w-[19%] 
+              lg:w-[19%] flex-col lg:text-lg bg-zinc-100 shadow-lg shadow-zinc-500">              
              <Link className="flex py-2 hover:bg-slate-200 " to="/">
-               <FaHouse className=" ml-2 mr-3  "/>Home
+               <FaHouse className=" ml-2 mr-3  "/>Home 
              </Link> <p className=""></p>
+             { pathname === "/" ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null}
 
              <Link className="flex py-2 hover:bg-slate-200" to="/infochat">
               <FaMessage className=" ml-2 mr-3 "/>Let's Chat
            </Link><span className="border-b-2"></span>
+            {pathname.includes("chat") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
 
              <Link className="flex py-2 hover:bg-slate-200" to="/post/lyric/category">
                <FaMusic className=" ml-2 mr-3  "/>Lyrics
              </Link><span className="border-b-2"></span>
+             {pathname.includes("/lyric") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
 
              <Link className="flex py-2 hover:bg-slate-200" to="/video/category">
                <FaVideo className=" ml-2 mr-3 "/>Lyrics video
              </Link><span className="border-b-2"></span>
+              {pathname.includes("/video") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
 
              <Link className="flex py-2 hover:bg-slate-200" to="/assistance">
                <IoMdHelp className="ml-2 mr-3"/> Assistance
              </Link><span className="border-b-2"></span>
+             {pathname.startsWith("/assistance") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
 
              <Link className="flex py-2 hover:bg-slate-200" to="/settings">
                 <IoMdSettings className="ml-2 mr-3"/> Settings
              </Link><span className="border-b-2"></span>
+            {pathname.startsWith("/settings") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
 
              <Link className="flex py-2 hover:bg-slate-200" to="/help">
               <FaExclamation className="  "/> Help
              </Link><span className="border-b-2"></span>
+             {pathname.startsWith("/help") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
 
              <Link className="flex py-2 hover:bg-slate-200" to="/language">
              <FaLanguage className="w-5 h-5"/>Language</Link>
              <span className="border-b-2"></span>
+             {pathname.startsWith("/language") ? <p className=" mx-2 border-b-4 border-blue-200  "></p> : null }
            </ul>          
          </div>
 
          {isLoading ? <h1 className="h-36 border">LOADING</h1> : null}
 
-         {userInfo ? null:          
-          <div className="absolute top-5 left-56">
-           <Link to="/register"> Sign Up</Link>
-         </div>
-         }
-         <div className="absolute top-5 left-72">
-           <Link to="/language" className="mr-2">Language</Link>
-         </div>
+         {userInfo ? null : 
+          <div className="text-gray-700 font-medium ">       
+            <div className=" flex absolute top-5 right-44 md:right-[30%] ">
+            <Link className=" flex hover:bg-slate-300 hover:border hover:rounded-full hover:text-indigo-800 w-24 hover:text-center " to="/register "> 
+                <IoMdLogIn className=" mx-1 w-5 h-5 md:w-6 md:h-7"/>
+                <p className=" ">Sign Up</p>
+              </Link>
+          </div>
+          {pathname.startsWith("/register") ? <p className=" absolute right-[37%] top-12 md:right-[30%] md:top-[85%] w-20 h-1 bg-blue-400  "></p> : null }
+         
+            <div className=" flex absolute top-5 right-20 md:right-[20%] ">
+            <Link className=" flex hover:bg-slate-300 hover:border hover:rounded-full hover:text-indigo-800 w-24 hover:text-center" to="/login "> 
+                <IoMdLogIn className=" mx-1 w-5 h-5 md:w-6 md:h-7"/>
+                <p className="  ">Sign In</p>
+              </Link>
+          </div>
+           {pathname.startsWith("/login") ? <p className=" absolute right-[18%] top-12 md:right-[21%] md:top-[85%] w-20 h-1 bg-blue-400  "></p> : null }
+         </div>  
+         
 
-        {showProfile ? 
+         }
+
+
+
+        {showProfile && userInfo ? 
           <div className=" absolute top-5 right-7 " onClick={handleShowProfile}>
             <FaUser className=" h-6 w-6 md:h-7 md:w-11 "/>
           </div> 
@@ -152,21 +192,22 @@ const Navbar = () => {
            onClick={handleShowProfile}/>
           
          <div  
-           className=" absolute top-16 right-2 cursor-pointer bg-slate-100"
+           className=" absolute top-16 right-1 cursor-pointer bg-indigo-400 rounded-md w-[55vw] md:w-[25vw] "
           >
-          <div className="py-1 mx-2 ">
+          <div className=" py-1 mx-2 ">
             
             {image ? 
-              <div className="font-medium text-center my-3 text-xl">
+              <div className="  font-medium my-1 text-xl">
                 <img src={image} alt={userInfo.firstName.substring(0,1)}
-                 className="rounded-full mt-1 mb-3 w-32 "/>
-                <p className="text-blue-900 ">{userInfo.firstName}</p>
+                 className="rounded-full mt-1 mb-1 w-24 md:w-32 "/>
+                <p className=" mx-3 text-gray-800  font-semibold ">{userInfo.firstName}</p>
               </div> : 
               <div className="">
                 <div className="mb-2 flex flex-col">
                 <input type="file" accept="image/*" onChange={e=>setFile(e.target.files[0])}/>
-                <button onClick={handleProfile} className="shadow rounded w-20 h-7 p-1 bg-blue-300"><p className="text-large">
-                Save Pic
+                <button onClick={handleProfile} className=" mx-3 mt-1 shadow rounded w-20 h-7 p-1 bg-blue-300"><p className="text-large">
+                <IoMdSave className=" w-5 h-5 md:w-7 md:h-7 "/>  
+                  <p className=" absolute top-11 left-12 ">Save</p>
                 </p></button>
               </div>  
             </div>}
@@ -177,9 +218,9 @@ const Navbar = () => {
               </Link></button>
             </div>
 
-            <div onClick={handleLogout}>
+            <div className=" relative" onClick={handleLogout}>
               <button className="mx-3 shadow rounded w-24 h-7 p-1 bg-red-300"><Link to="/logout" className="text-large text-center">
-                <IoMdLogOut className=" w-5 h-5"/> Logout
+                <IoMdLogOut className=" w-5 h-5"/> <p className=" absolute top-1 left-9 ">Logout</p>
               </Link></button>
             </div>
           </div> 
@@ -192,51 +233,69 @@ const Navbar = () => {
        <section className="md:hidden ">
          {/** Hero section */}
          {showModal ? (
-           <ul onClick={() => setShowModal(false)} className="absolute  h-screen text-white flex w-80 flex-col shadow  bg-zinc-600">
+           <ul onClick={() => setShowModal(false)} className="absolute h-screen flex w-80 text-white font-medium text-lg flex-col shadow bg-blue-700 ">
             
-            <div className=" mt-2 bg-zinc-600 hover:bg-slate-700">
+            <div className=" py-3 hover:bg-blue-800">
              <Link className=" ml-20 " to="/">
                <FaHouse className="absolute left-14 "/>Home
              </Link> 
-             <p className=" py-1 border-b-2"></p>
             </div>
+            <p className=" w-80 h-[2px] bg-slate-100 "></p>
 
-            <div className=" mt-2 bg-zinc-600 hover:bg-slate-700">
+            <div className=" py-3 hover:bg-blue-800">
              <Link className="ml-20 " to="/infochat">
               <FaMessage className="absolute left-14  "/>Let's Chat
              </Link><span className="border-b-2"></span>
-             <p className="py-1 border-b-2"></p>
            </div>
- 
-             <Link className="ml-20 bg-zinc-600 py-3 " to="/post/lyric/category">
+           <p className="w-80 h-[2px] bg-slate-100 "></p>
+
+            <div className=" py-3 hover:bg-blue-800">
+             <Link className="ml-20  " to="/post/lyric/category">
                <FaMusic className="absolute left-14  "/>Lyrics
              </Link><span className="border-b-2"></span>
+             </div>
+            <p className="w-80 h-[2px] bg-slate-100 "></p>
 
-             <Link className="ml-20 bg-zinc-600 py-3 " to="/video/category">
+            <div className=" py-3 hover:bg-blue-800">
+             <Link className=" ml-20 " to="/video/category">
                <FaVideo className="absolute left-14 "/>Lyrics video
              </Link><span className="border-b-2"></span>
+             </div>
+            <p className="w-80 h-[2px] bg-slate-100 "></p>
 
-             <Link className="ml-20 bg-zinc-600 py-3 " to="/assistance">
+            <div className=" py-3  hover:bg-blue-800">
+             <Link className="ml-20" to="/assistance">
                <IoMdHelp className="absolute left-14"/> Assistance
              </Link><span className="border-b-2"></span>
+            </div>
+            <p className="w-80 h-[2px] bg-slate-100 "></p>
 
-             <Link className="ml-20 bg-zinc-600 py-3" to="/settings">
+            <div className=" py-3 hover:bg-blue-800">
+             <Link className="ml-20" to="/settings">
                <IoMdSettings className="absolute left-14"/> Settings
              </Link><span className="border-b-2"></span>
+            </div>
+            <p className="w-80 h-[2px] bg-slate-100 "></p>
 
-             <Link className="ml-20 bg-zinc-600 py-3" to="/help">
+            <div className=" py-3 hover:bg-blue-800">
+             <Link className="ml-20" to="/help">
               <FaExclamation className="absolute left-14  "/> Help
              </Link><span className="border-b-2"></span>
+            </div>
+            <p className="w-80 h-[2px] bg-slate-100 "></p>
 
-             <Link to="/language" className=" ml-20 bg-zinc-600 py-3">
+            <div className=" py-3 hover:bg-blue-800">
+             <Link to="/language" className=" ml-20  py-3">
              <FaLanguage className=" absolute left-14"/>Language</Link>
              <span className="border-b-2"></span>
+             </div>
+            <p className="w-80 h-[2px] bg-slate-100 "></p>
            </ul>
           
          ) : null}
         </section>
         <Outlet/>
-      </>    
+      </div>    
    );
 }
 

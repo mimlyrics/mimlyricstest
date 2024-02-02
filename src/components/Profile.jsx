@@ -16,8 +16,11 @@ const PASSWORD_ERR_MSG = password. atleast(one lowercase, uppercase letter, digi
 const MOBILENO_ERR_MSG = mobile number. must be 9 digits */
 import { useUpdateUserMutation } from "../slices/auth/usersApiSlice";
 import axios from "axios";
-const BASE_URL = "http://localhost:5000/api/v1";
+//const BASE_URL = "http://localhost:5000/api/v1";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
+import { useMimlyrics } from "./context/AppProvider";
 const Profile = () => {
+  console.log("Pic");
   var [firstNamex, setFirstNamex] = useState("");
   var [lastNamex, setLastNamex] = useState("");
   var {firstName, _id, lastName} = useSelector((state) => state.auth.userInfo);
@@ -40,17 +43,19 @@ const Profile = () => {
   const [firstNameFocus, SetFirstNameFocus] = useState(false);
   useEffect(() => {
     const result = FIRSTNAME_REGEX.test(firstNamex);
-    console.log(result);
+    //console.log(result);
     setValidFirstName(result);
   }, [firstNamex]);
 
   useEffect(() => {
     const result = LASTNAME_REGEX.test(lastNamex);
-    console.log(result);
+    //console.log(result);
     setValidLastName(result);
   }, [lastNamex]);
 
-  console.log(firstNamex, lastNamex);
+  const {isActiveModalNavbar} = useMimlyrics();
+
+  //console.log(firstNamex, lastNamex);
   
   const handleProfileUpdate = async (e) => {
     e.preventDefault();
@@ -70,14 +75,14 @@ const Profile = () => {
     async function getImage() {
       try {
         if(_id) {
-          console.log("yess");
+          //console.log("yess");
           const res = await axios.get(`${BASE_URL}/upload/avatar/${_id}`, 
           {headers: {withCredentials: true}});
-          console.log(res.data);
+          //console.log(res.data);
           setImage(res.data.user.avatar);
         }
       }catch(err) {
-        console.log(err?.data?.message);
+        //console.log(err?.data?.message);
         setErrMsg(err?.data?.message);
       }
     }
@@ -93,30 +98,45 @@ const Profile = () => {
       formData.append("userId", userId);
       const postPic = await axios.put(`${BASE_URL}/upload/avatar/${userId}`, formData, 
         {headers: {withCredentials: true, "Content-Type": "multipart/form-data"}});
-      console.log(postPic);
+      //console.log(postPic);
     }catch(err) {
-      setErrMsg(err)
-      console.log(err);
+      setErrMsg(err?.data?.message);
+      //console.log(err?.data?.message);
     }
   }
 
-
+  //console.log("ISXXX: ", isActiveModalNavbar)
   return (
-    <section className=" h-11 mt-11">
+    <section className= { isActiveModalNavbar ? " relative -z-50 opacity-0 " : " -z-50 h-11 my-3 " }>
       <form
         className=" md:w-6/12 md:ml-64 bg-white ml-4 flex-col text-lg"
       >
-        <h2 className="mx-5 mt-2 mb-3 italic text-2xl">
+        <h2 className="mx-5 my-2 italic text-2xl">
             Update Account
         </h2>
 
         {errMsg ? <p className="animate animate-bounce text-red-500 md:text-lg">{errMsg}</p> : null}
         {success ? <p className="text-green-300 md:text-lg">{success}</p> : null}
 
-        <div className="relative mb-3 mx-4 cursor-pointer">
+        <div className=" mb-1 mx-4">
             <img className="w-24 h-24 rounded-full" src={image} alt="X"/>
-            <label className="absolute top-20 left-16 cursor-pointer " htmlFor="picture"><FaUpload onClick={(e)=>updateProfileImage(e)} className=" w-5 h-5 text-blue-200 hover:text-blue-800"/></label>
-            <input id="picture" type="file" accept="image/*"  onChange={(e)=>setFile(e.target.files[0])} hidden/>
+              <div className=" flex space-x-32 ">
+                <div className=" ">
+                  <label htmlFor="pic" className="absolute text-blue-400 top-[30%] left-24">
+                    <FaUpload className="w-5 h-5 cursor-pointer"/>
+                  </label>
+                  <input id="pic"  type="file" accept="image/*" onChange={e=>setFile(e.target.files[0])} hidden />
+                </div>
+
+                <div className=" flex ">
+                    <button onClick={updateProfileImage} 
+                      className=" mt-1 w-20 shadow rounded-md hover:rounded-lg hover:bg-slate-200 
+                      bg-slate-100 "><p className="">
+                    Save
+                    </p>
+                    </button>
+                </div>
+              </div>
         </div>
         <div className="">
           <div className="form-group p-2 ">
@@ -129,7 +149,7 @@ const Profile = () => {
               value={firstNamex}
               required
               onChange={(e) => setFirstNamex(e.target.value)}
-              className=" px-2 border w-[70%] rounded md:w-[50%] lg:w-[55%] mr-5 h-8 text-blue-600"
+              className=" px-2 border w-[70%] rounded md:w-[50%] lg:w-[55%] mr-5 h-8 text-blue-900 font-mono "
             />
           </div>
 
@@ -141,7 +161,7 @@ const Profile = () => {
               autoComplete="off"
               value={lastNamex}
               onChange={(e) => setLastNamex(e.target.value)}
-              className="border p-2 w-[70%] rounded mr-5  md:w-[50%] lg:w-[55%]  h-8 text-blue-600"
+              className="border p-2 w-[70%] rounded mr-5  md:w-[50%] lg:w-[55%]  h-8 text-blue-900 font-mono"
             />
           </div>
 
@@ -151,9 +171,11 @@ const Profile = () => {
           <button
             onClick={handleProfileUpdate}
             type="submit"
-            className=" mt-2 p-1 mb-2 transition ease-in-out delay-150 duration-300 w-48 shadow-lg bg-blue-300 rounded hover:scale-103 hover:translate-y-1 hover:bg-indigo-500"
-          >
-            Update Account
+            className=" mt-2 p-1 mb-2 transition ease-in-out delay-150 duration-300 w-40 
+              shadow-lg bg-blue-300 rounded hover:rounded-md hover:scale-102 hover:translate-y-[2px]
+             hover:bg-indigo-500"
+            >
+            Update Profile
           </button>
         </div>
       </form>

@@ -1,12 +1,12 @@
 import {useState, useEffect} from "react";
+import { useMimlyrics } from "../context/AppProvider";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import Conversation from "./Conversation";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import Room from "./Room";
-
 const InfoChat = () => {
   const [conversations, setConversations] = useState([]);
   const {firstName, phone} = useSelector(state => state.auth.userInfo);
@@ -15,6 +15,7 @@ const InfoChat = () => {
   const [otherRooms, setOtherRooms] = useState(null);
   const [errMsg, setErrMsg] = useState("");
   const [success, setSucces] = useState(""); 
+  const {isActiveModalNavbar} = useMimlyrics();
   useEffect(() => {
     const getConversation = async () => {
       try {
@@ -78,7 +79,7 @@ const InfoChat = () => {
   }
 
   return (
-    <section className="mx-1 md:w-[50%] md:ml-48 lg:ml-64 ">
+    <section className={ isActiveModalNavbar ? "relative -z-50 opacity-60 ": " mx-1 md:w-[50%] md:ml-48 lg:ml-64 "}>
 
       {conversations ?
         <div className="">
@@ -94,14 +95,14 @@ const InfoChat = () => {
           </button>
             {showRooms ?
               <Room/> : null
-
             }
         </div> : 
         <div className="">
           <p>No conversation. Join a Mim Group to start chatting</p>
           <div className="mt-2">
             <button
-              className="animation ease-out delay-300 translate-y-1 bg-indigo-200 text-lg shadow rounded w-64 h-11 hover:bg-indigo-300"
+              className="animation ease-out delay-300 translate-y-1 bg-indigo-200 text-lg shadow
+               rounded-md w-64 h-11 hover:rounded-lg hover:bg-indigo-500 hover:translate-y-[2px] "
               type="submit"
             ></button>
           </div>

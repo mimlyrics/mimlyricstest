@@ -8,7 +8,8 @@ import Input from './Input';
 import axios from 'axios';
 import RecentMessages from './RecentMessages';
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
+import { useMimlyrics } from '../context/AppProvider';
 const Chat = () => {
   //const {message, messages, setMessage, sendMessage} = useMessage();
   var [phone, setPhone] = useState("");
@@ -26,6 +27,7 @@ const Chat = () => {
   const [image, setImage] = useState("");
   const [userId, setUserId] = useState("");
   const [emoji, setEmoji] = useState("");
+  const {isActiveModalNavbar} = useMimlyrics();
   useEffect(() => {
     async function getImage() {
       try {
@@ -155,7 +157,7 @@ const Chat = () => {
   //console.log("messagesX: ", messages);
 
   return (
-    <section className=' mx-2 md:ml-[23%] lg:md:ml-[24%]'>
+    <section className={ isActiveModalNavbar ? "relative -z-50 opacity-60 " :" mx-2 md:ml-[23%] lg:md:ml-[24%]" }>
      {errMsg ? <div className='text-red-500 font-medium'><h1>{errMsg}</h1></div> : null }
       <Infobar firstName={firstName}/>
       <RecentMessages files={files} conversationId={conversationId} room={room} messages={messages} setMessages={setMessages} image={image} userId={userId} message={message} phone={phone}/>

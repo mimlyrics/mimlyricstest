@@ -3,7 +3,7 @@ import axios from "axios";
 //const BASE_URL = "http://localhost:5000/api/v1";
 import Video from "./Video";
 import queryString from "query-string";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 const LyricsVideo = () => {
     const [category, setCategory] = useState("");
     const [videos, setVideos] = useState([]);

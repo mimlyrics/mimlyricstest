@@ -14,7 +14,7 @@ import { FaX } from "react-icons/fa6";
 import { FaInfo } from "react-icons/fa6";
 import { FaExclamation } from "react-icons/fa6";
 import "react-international-phone/style.css";
-
+import { useMimlyrics } from "./context/AppProvider";
 import Cookiepolicy from "./policy/Cookiepolicy";
 import Privacy from "./policy/Privacy";
 import Termsofuse from "./policy/Termsofuse";
@@ -56,6 +56,9 @@ const Register = () => {
   const [errMsg, setErrMsg] = useState("");
   const [passwordFocus, setPasswordFocus] = useState("");
   const errRef = useRef();
+
+  const {isActiveModalNavbar, setIsActiveModalNavbar} = useMimlyrics();
+
 
   useEffect(() => {
     firstNameRef.current.focus();
@@ -119,13 +122,11 @@ const Register = () => {
       console.log(error?.data?.message || error.error);
       setSucess(false);
       setErrMsg(error?.data?.message);
-
     }
   }
 
-
   return (
-    <section className="relative ">
+    <section className={ isActiveModalNavbar ? " relative opacity-60 -z-50 " : " -z-50 "}>
     {errMsg ? 
       <div className=" animate transition ease-in-out duration-500 absolute -top-9 right-2 border-b-4 border-b-white-700 shadow font-semibold rounded text-center text-lg bg-blue-500 h-9 w-60 ">
         <p>Registration failed - {errMsg}</p>
@@ -133,9 +134,10 @@ const Register = () => {
       : 
       null
     }
-    <div className=" my-2 text-gray-950 ">
+    <div className=" my-1 text-gray-950">
       <form
-        className=" bg-indigo-200 md:w-6/12 md:ml-64 md:py-9 py-3 mx-3 shadow shadow-indigo-300 rounded flex-col text-lg"
+        className=" py-6 bg-indigo-200 md:w-6/12 md:ml-64 md:py-9 mx-3 
+          shadow-2xl shadow-indigo-400 rounded flex-col text-lg"
         action="./register"
         onSubmit={handleSubmit}
       >
@@ -143,7 +145,7 @@ const Register = () => {
           Sign Up to Mimlyrics
         </h2>
 
-        <p className="mb-3 mt-2 text-center">
+        <p className=" my-2 text-center">
           Already have an account ?{" "}
           <Link to="/login" className="bg-purple-200 rounded">
             Login
@@ -230,9 +232,6 @@ const Register = () => {
               onBlur={() => setPhoneFocus(false)}
             />
           </div>
-            {/** Test */}
-            <p className={phoneFocus && phone ? " shadow-blue-950 shadow-lg flex mt-1 w-full text-sm text-blue-600 font-medium": "hidden"}> <FaExclamation className=" mr-2 w-5 h-6 font-extrabold text-blue-800"/>
-             Phone number must only be a number</p>
         </div>
 
         <div className="form-group p-2">
@@ -287,8 +286,7 @@ const Register = () => {
               </div>
               {/** Test */}
               <p className={passwordFocus && password && !validPassword ? " shadow-blue-950 shadow-lg flex mt-1 w-full text-sm text-blue-600 font-medium": "hidden"}> <FaInfo className=" mr-2 w-5 h-6 font-extrabold text-blue-800"/>
-             Password must contain atleast a letter, number and should not be less than 8 characters</p>
-          
+             Password must contain atleast a letter, number and should not be less than 8 characters</p>          
             </div>
           )}
         </div>
@@ -306,13 +304,12 @@ const Register = () => {
           </h1>
         </div>
 
-          <button
-            disabled={!validFirstName || !validLastName || !validEmail || !validPassword ? true: false}
-           
-            className=" cursor-pointer my-2 mx-4 p-1 mb-2 transition ease-in-out delay-150 duration-300 w-48 shadow-lg bg-blue-300 rounded hover:scale-103 hover:translate-y-1 hover:bg-indigo-500"
-          >
-            Sign Up
-          </button>
+        <button
+          disabled={!validFirstName || !validLastName || !validEmail || !validPassword ? true: false}
+          className=" cursor-pointer my-2 mx-4 p-1 mb-2 transition ease-in-out delay-150 duration-300
+           w-44 h-11 shadow-lg bg-blue-300 rounded-md hover:scale-103 hover:translate-y-[2px] hover:bg-indigo-500"          >
+          Sign Up
+        </button>
       </form>
     </div>
     </section>

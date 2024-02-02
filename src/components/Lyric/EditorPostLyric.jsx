@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 //import "./css/video.css";
 import { FaUpload } from "react-icons/fa6";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import {countries} from "country-data-list";
 
 const EditorPostLyric = () => {

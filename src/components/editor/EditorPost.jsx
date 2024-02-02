@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { FaUpload } from "react-icons/fa6";
 //const BASE_URL = "http://localhost:5000/api/v1";
 import {countries} from "country-data-list";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 const EditorPost = () => {
   const [categories, setCategories] = useState([]);
   const [category, setCategory]  = useState("");

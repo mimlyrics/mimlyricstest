@@ -9,7 +9,8 @@ import { FaSearchengin } from 'react-icons/fa6';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa6';
 import { IoMdSearch } from 'react-icons/io';
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+import { useMimlyrics } from '../context/AppProvider';
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import { useSelector } from 'react-redux';
 const LyricRead = () => {
   const [searchLyrics, setSearchLyrics] = useState([]);
@@ -26,6 +27,7 @@ const LyricRead = () => {
   const {_id} = useSelector(state => state.auth.userInfo);
   const [hasLiked, setHasLiked] = useState(false);
   const [views, setViews] = useState(0);
+  const {isActiveModalNavbar} = useMimlyrics();
   console.log(location.search);
   useEffect(() => {
     const {lyricId} = queryString.parse(location.search);
@@ -108,22 +110,7 @@ const LyricRead = () => {
   }
 
   return (
-    <section className=' md:absolute md:top-16 md:ml-[20%] mx-1 md:mx-3'>
-      <div className=' text-lg md:text-xl flex my-1 md:absolute md:my-3 space-x-0 '>
-        <input 
-          type='text'
-          onChange={e=>setSearchId(e.target.value)}
-          onKeyDown={e=> e.key === 'Enter' ? searchLyricsF(e) : null}
-          placeholder="search..."
-          className=' bg-slate-100 mx-2 p-3 border-4 
-          shadow rounded-md border-gray-200 w-[90vw] md:w-[48vw] '/>
-        <button type="submit" className=" bg-slate-300 absolute w-12 h-12 
-          right-[7%] top-[12%] border rounded-lg md:right-[5%] md:top-2 text-gray-400 md:w-11 md:h-11 hover:text-gray-700">
-          <IoMdSearch className=" w-11 h-11 right-[15%] top-[12%] md:right-[8%] md:top-2
-            text-gray-400 md:w-11 md:h-11 hover:text-gray-700"/>
-        </button>
-      </div>
-
+    <section className={ isActiveModalNavbar ? "relative -z-50 opacity-60" : "md:absolute md:top-16 md:ml-[20%] mx-1 md:mx-3"}>
       <div className=' my-2 md:my-20 '>
         <div className=' mx-3 flex space-x-8 items-center'>
           {lyric.photo ? <img className=' w-[35vw] md:w-[10vw] 

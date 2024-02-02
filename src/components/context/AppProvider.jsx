@@ -1,19 +1,23 @@
 import {useState, useContext, createContext} from "react";
-const mimlyricsContext = createContext();
+const MimlyricsContext = createContext();
 export function useMimlyrics () {
-    return useContext(mimlyricsContext);
+    return useContext(MimlyricsContext);
 }
 const AppProvider = ({children}) => {
   const [language, setLanguage] = useState("");
-
+  const [isActiveModalNavbar, setIsActiveModalNavbar] = useState(false);
+  const [isActivePage, setIsActivePage] = useState(false);
   const value = {
-    language: language
+    language: language,
+    isActiveModalNavbar: isActiveModalNavbar,
+    setIsActiveModalNavbar: setIsActiveModalNavbar,
+    isActivePage: setIsActivePage,
   }
 
   return (
-    <mimlyricsContext.Provider value={value}>
+    <MimlyricsContext.Provider value={value}>
       {children}
-    </mimlyricsContext.Provider>
+    </MimlyricsContext.Provider>
   )
 }
 

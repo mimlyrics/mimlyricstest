@@ -1,7 +1,7 @@
 import {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 //const BASE_URL = "http://localhost:5000/api/v1"
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import axios from "axios";
 const EditorLyricCategory = () => {
   const [categories, setCategories] = useState([]);

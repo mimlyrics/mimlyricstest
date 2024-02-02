@@ -68,8 +68,9 @@ function App() {
   const [isEditor, setIsEditor] = useState(false);
   //console.log(isAdmin, isEditor);
   return (
-    <Router>      
-      <Routes>
+    <Router>    
+        
+      <Routes>        
       {/**Public routes */}
         <Route path="" element={<Navbar/>}>
           <Route path="/" element={<Home />} />

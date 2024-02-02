@@ -5,7 +5,7 @@ import axios from "axios";
 import { Navigate, useLocation, Link } from "react-router-dom";
 import { Outlet } from "react-router";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import ErrorMiddleware from "./ErrorMiddleware";
 const RequireAdmin = () => {
   const token = useSelector(selectCurrentToken);

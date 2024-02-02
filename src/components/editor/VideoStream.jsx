@@ -11,7 +11,7 @@ import { BsThreeDots } from "react-icons/bs";
 import axios from "axios";
 import {useSelector} from "react-redux";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest-api.onrender.com";
+const BASE_URL = "https://mimlyricstest2-api.onrender.com";
 import TimeAgo from "timeago-react";
 import {IoMdSend} from "react-icons/io";
 import Picker from "emoji-picker-react";
