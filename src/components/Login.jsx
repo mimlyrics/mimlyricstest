@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 //const BASE_URL = "http://localhost:5000/api/v1";
-const BASE_URL = "https://mimlyricstest2-api.onrender.com";
+const BASE_URL = "https://mimlyricstest-api.onrender.com";
 import FacebookLogo from "../assets/facebook.png";
 import GoogleLogo from "../assets/google.png";
 import GithubLogo from "../assets/github.png";
