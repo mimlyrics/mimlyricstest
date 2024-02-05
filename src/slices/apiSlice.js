@@ -2,7 +2,7 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import { logout, setCredentials } from "./auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "https://mimlyricstest2-api.onrender.com",
+    baseUrl: "https://mimlyricstest-api.onrender.com",
     //baseUrl: "http://localhost:5000",
     //credentials: 'include',
     prepareHeaders: (headers, {getState}) => {
